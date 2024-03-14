@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addWishlistItem } from '../REDUX/slices/wishlistSlice'
 import { addToCart } from '../REDUX/slices/cartSlice'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function View() {
   
   const[product,setProduct]=useState()
@@ -27,7 +30,7 @@ function View() {
 
   const handleWishlist=(product)=>{
     if(wishlist?.includes(product)){
-      alert("Item alredy in your Wishlist!!")
+      toast.info("Item alredy in your Wishlist!!")
     }
     else{
       dispatch(addWishlistItem(product))
@@ -38,11 +41,11 @@ function View() {
     const existingProduct=cart?.find(item=>item.id==product.id)
     if(existingProduct){
       dispatch(addToCart(product))
-      alert("Products added to cart")
+      toast.success("Products added to cart")
     }
     else{
       dispatch(addToCart(product))
-      alert("product added to  your cart!!")
+      toast.success("product added to  your cart!!")
     }
   }
 
@@ -68,6 +71,7 @@ function View() {
       </div>
     </div>
   </div>
+  <ToastContainer position='top-center' theme='colored' autoClose={3000}/>
     </>
     
   )

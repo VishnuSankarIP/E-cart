@@ -14,16 +14,23 @@ const productSlice= createSlice({
     name:'products',
     initialState:{
         allProducts:[],
+        allProductsDummy:[],
         error:"",
         loading:false
     },
     reducers:{
+        searchProducts:(state,action)=>{
+            state.allProducts=state.allProductsDummy.filter(item=>item.title.toLowerCase().includes(action.payload))
+        }
+
 
     },
     extraReducers:(builder)=>{
         builder.addCase(fetchProducts.fulfilled,(state,action)=>{
             state.loading=false
             state.allProducts=action.payload
+            // dummpyproduct to filter the array 
+            state.allProductsDummy=action.payload
             state.error=""
         })
         builder.addCase(fetchProducts.pending,(state,action)=>{
@@ -40,4 +47,5 @@ const productSlice= createSlice({
     }
 
 })
+export const {searchProducts} =productSlice.actions
 export default productSlice.reducer
