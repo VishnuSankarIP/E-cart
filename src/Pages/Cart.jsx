@@ -3,9 +3,12 @@ import Header from '../Component/Header'
 import { Button, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { deQuantity, emptyCart, inQuantity, removeCartItem } from '../REDUX/slices/cartSlice'
+import { ToastContainer, toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 
 function Cart() {
+  const navigate=useNavigate()
   const cartItems = useSelector(state => state.cartReducer)
   const [cartTotal, setCardTotal] = useState(0)
   const dispatch=useDispatch()
@@ -28,6 +31,14 @@ else{
 
   dispatch(removeCartItem(product.id))
 }
+  }
+  const handleCheckOut=()=>{
+    dispatch(emptyCart())
+    toast.success("Order placed successfully !!! Thank you for shopping with us.")
+    setTimeout(() => {
+      navigate('/')
+    }, 2000);
+  
   }
   return (
     <>
@@ -80,7 +91,7 @@ else{
                   <div className="container border rounded">
                     <h4>Items:{cartItems?.length}</h4>
                     <h3>Total Price:{cartTotal}</h3>
-                    <button className='btn btn-success w-100 mb-5 mt-5 p-1'>Check out</button>
+                    <button onClick={()=>handleCheckOut()} className='btn btn-success w-100 mb-5 mt-5 p-1'>Check out</button>
                   </div>
                 </div>
               </div>
@@ -96,7 +107,7 @@ else{
 
 
       </div>
-
+<ToastContainer position='top-center'/>
 
     </>
 
